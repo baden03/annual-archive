@@ -1,0 +1,2 @@
+# Annual-Archive
+Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed. Archives can be displyed in the sidebar using a widget, and even in a post or page by using a shortcode. A complete listing of shortcode options and attribute demos are available, as well as free community support. The Annual Archive widget - A better archive widget for WordPress.
