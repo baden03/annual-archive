@@ -31,7 +31,7 @@ class WP_Plugin_Annual_Archive {
 	 * Options page
 	 * @var string
 	 */
-	var $plguin_options_page_title = 'Annunal Archive Options';
+	var $plugin_options_page_title = 'Annual Archive Options';
 	var $plugin_options_menue_title = 'Annual Archive';
 	var $plugin_options_slug = 'annual-archive-optons';
 
@@ -87,7 +87,7 @@ class WP_Plugin_Annual_Archive {
 	function admin_menu() {
 		if ( function_exists( 'add_options_page' ) AND current_user_can( 'manage_options' ) ) {
 			// add options page
-			$options_page = add_options_page($this->plguin_options_page_title, $this->plugin_options_menue_title, 'manage_options', $this->plugin_options_slug, array( $this, 'options_page' ));
+			$options_page = add_options_page($this->plugin_options_page_title, $this->plugin_options_menue_title, 'manage_options', $this->plugin_options_slug, array( $this, 'options_page' ));
 		}
 	}
 
@@ -234,7 +234,7 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'About', 'anual-archive' ) ?></h3>
 					<div class="inside">
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'anual-archive'); ?> <?php echo $this->version; ?></h4>
-						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displyed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget.  Yup, that is pretty much it.  Oh, one more thing: The plugin can be translated into any language using our %scommunity translation tool%s. Ok, that is really it.', 'anual-archive') ,'<a href="http://plugins.twinpictures.de/plugins/annual-archive/documentation/">','</a>', '<a href="http://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="http://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
+						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget.  Yup, that is pretty much it.  Oh, one more thing: The plugin can be translated into any language using our %scommunity translation tool%s. Ok, that is really it.', 'anual-archive') ,'<a href="http://plugins.twinpictures.de/plugins/annual-archive/documentation/">','</a>', '<a href="http://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="http://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
 						<ul>
 							<li>
 								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="http://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
@@ -255,12 +255,10 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
 					<div class="inside">
 						<p><?php printf(__( '%sArchive-Pro-Matic%s is our premium plugin that adds the ability to display archives by <strong>post type</strong> or <strong>category</strong>', 'anual-archive' ), '<a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
-						<!--<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Special Offer:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-may-the-forth">Update to Archive-Pro-Matic</a> with discount code: <strong>MAYTHEFORTH</strong> on or before May 4th, 2015 and get a 15% discount. Why? Because Star Wars, that's why.</p>-->
 						<h4><?php _e('Reasons To Go Pro', 'anual-archive'); ?></h4>
 						<ol>
 							<li><?php _e('I am an advanced user and want/need advanced features', 'anual-archive'); ?></li>
 							<li><?php _e('Annual Archive was just what I needed. Here, have some money.', 'anual-archive'); ?></li>
-							<!--<li>Special Offer: May the forth be with you.</li>->
 						</ol>
 					</div>
 				</div>
@@ -314,7 +312,6 @@ class Annual_Archive_Widget extends WP_Widget {
 
     /** Widget */
     function widget($args, $instance) {
-	//$options = get_option('WP_AnnualArchive_options');
 	extract( $args );
 
 	$format = empty($instance['format']) ? 'html' : apply_filters('widget_format', $instance['format']);
