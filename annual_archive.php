@@ -5,7 +5,7 @@ Text Domain: anual-archive
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.4.5
+Version: 1.4.6a
 Author: Twinpictures
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -24,7 +24,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.4.5';
+	var $version = '1.4.6a';
 	var $domain = 'anarch';
 
 	/**
@@ -255,10 +255,12 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
 					<div class="inside">
 						<p><?php printf(__( '%sArchive-Pro-Matic%s is our premium plugin that adds the ability to display archives by <strong>post type</strong> or <strong>category</strong>', 'anual-archive' ), '<a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
+						<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Last Chance for 2015 Prices:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before January 2016 to take advantage of 2015 pricing.</p>
 						<h4><?php _e('Reasons To Go Pro', 'anual-archive'); ?></h4>
 						<ol>
-							<li><?php _e('I am an advanced user and want/need advanced features', 'anual-archive'); ?></li>
-							<li><?php _e('Annual Archive was just what I needed. Here, have some money.', 'anual-archive'); ?></li>
+							<li><?php _e("You are an advanced user and want/need advanced features", "anual-archive"); ?></li>
+							<li><?php _e("Annual Archive was just what you needed and you'd like to put a bit of bread in our jar", "anual-archive"); ?></li>
+							<li><?php _e("You'd like to take advantage of 2015 pricing while it's still 2015", "anual-archive"); ?></li>
 						</ol>
 					</div>
 				</div>
