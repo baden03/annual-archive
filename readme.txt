@@ -3,15 +3,15 @@
 Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
-Requires at least: 3.9
-Tested up to: 4.3.1
-Stable tag: 1.4.5
+Requires at least: 4.0
+Tested up to: 4.4.0
+Stable tag: 1.4.6
 
 Display daily, weekly, monthly or annual archives with a sidebar widget or shortcode.
 
 == Description ==
 
-Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displyed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='http://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='http://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget. The plugin can be translated into any language using our community translation tool at: http://translate.twinpictures.de/projects/anual-archive/
+Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='http://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='http://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget. The plugin can be translated into any language using our community translation tool at: http://translate.twinpictures.de/projects/anual-archive/
 
 == Installation ==
 
@@ -56,6 +56,11 @@ Scares the crap out of the seeing-eye-dogs.
 
 == Changelog ==
 
+= 1.4.6 =
+* corrected spelling errors
+* fully tested with WordPress 4.4.0
+* notice: price increase for 2016 for archive-pro-magic
+ 
 = 1.4.5 =
 * updated widget constructor to php5
 * updated language text domain to work with new WordPress language system
@@ -99,4 +104,4 @@ Scares the crap out of the seeing-eye-dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-updated widget constructor to php5 and updated the language text domain to work with new WordPress language system
+Plugin has fixed typos and removed commented out code. Words 100% with WordPress 4.4.0

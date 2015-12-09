@@ -4,16 +4,16 @@ Annual Archive
 * Contributors: twinpictures, baden03
 * Donate link: http://plugins.twinpictures.de/plugins/annual-archive/
 * Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
-* Requires at least: 3.9
-* Tested up to: 4.3.1
-* Stable tag: 1.4.5
+* Requires at least: 4.0
+* Tested up to: 4.4.0
+* Stable tag: 1.4.6
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Description
 -----------
 
-Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displyed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='http://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='http://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget for WordPress.
+Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='http://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='http://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget for WordPress.
 
 Installation
 ------------
