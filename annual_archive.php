@@ -5,7 +5,7 @@ Text Domain: anual-archive
 Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.4.6
+Version: 1.4.7
 Author: Twinpictures
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -24,7 +24,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.4.6';
+	var $version = '1.4.7';
 	var $domain = 'anarch';
 
 	/**
@@ -66,6 +66,7 @@ class WP_Plugin_Annual_Archive {
 
 		// add shortcode
 		add_shortcode('archives', array($this, 'shortcode'));
+		add_shortcode('arcpromat', array($this, 'shortcode'));
 
 		// Add shortcode support for widgets
 		add_filter('widget_text', 'do_shortcode');
@@ -255,12 +256,12 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
 					<div class="inside">
 						<p><?php printf(__( '%sArchive-Pro-Matic%s is our premium plugin that adds the ability to display archives by <strong>post type</strong> or <strong>category</strong>', 'anual-archive' ), '<a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
-						<!--<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Last Chance for 2015 Prices:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before January 2016 to take advantage of 2015 pricing.</p>-->
+						<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Star Wars Day Discount:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before May 4th, 2016 using discount code MAYTHE4TH and receive 10% off.</p>
 						<h4><?php _e('Reasons To Go Pro', 'anual-archive'); ?></h4>
 						<ol>
 							<li><?php _e("You are an advanced user and want/need advanced features", "anual-archive"); ?></li>
 							<li><?php _e("Annual Archive was just what you needed and you'd like to put a bit of bread in our jar", "anual-archive"); ?></li>
-							<!--<li><?php _e("You'd like to take advantage of 2015 pricing while it's still 2015", "anual-archive"); ?></li>-->
+							<li><?php _e("Because MAYTHE4TH is strong with this one", "anual-archive"); ?></li>
 						</ol>
 					</div>
 				</div>
@@ -384,8 +385,8 @@ class Annual_Archive_Widget extends WP_Widget {
         ?>
 
         <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','anual-archive'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
-	<p><label for="<?php echo $this->get_field_id('count'); ?>"><input type="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" value="1" <?php checked( $count, 1 ); ?>/>&nbsp;&nbsp;<?php _e('Show post counts', 'anual-archive'); ?></label></p>
-	<p><label><?php _e('Archive type:', 'anual-archive'); ?> <select name="<?php echo $this->get_field_name('type'); ?>" id="<?php echo $this->get_field_id('type'); ?>">
+		<p><label for="<?php echo $this->get_field_id('count'); ?>"><input type="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" value="1" <?php checked( $count, 1 ); ?>/>&nbsp;&nbsp;<?php _e('Show post counts', 'anual-archive'); ?></label></p>
+		<p><label><?php _e('Archive type:', 'anual-archive'); ?> <select name="<?php echo $this->get_field_name('type'); ?>" id="<?php echo $this->get_field_id('type'); ?>">
 		<?php
 		$types_arr = array(
 			'daily' => __('Daily', 'anual-archive'),
