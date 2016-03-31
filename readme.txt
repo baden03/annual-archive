@@ -58,7 +58,8 @@ Scares the crap out of the seeing-eye-dogs.
 
 = 1.4.7 =
 * added backup shortcode ‘arcpromat’ incase of shortcode conflict with ‘archives’
-* fully tested with WordPres 4.5
+* fully tested with WordPress 4.5
+* fully supports WordPress Language Packs, no longer ships with all languages
 
 = 1.4.6 =
 * corrected spelling errors
@@ -108,4 +109,4 @@ Scares the crap out of the seeing-eye-dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-Added new archpromat shortcode incase of conflict with archives. Works 100% with WordPress 4.4.1
+Added new archpromat shortcode incase of conflict with archives. Works 100% with WordPress 4.5 and WordPress language packs.

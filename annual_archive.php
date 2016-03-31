@@ -2,7 +2,6 @@
 /*
 Plugin Name: Annual Archive
 Text Domain: anual-archive
-Domain Path: /languages
 Plugin URI: http://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, postbypost and alpha archives with a sidebar widget or shortcode.
 Version: 1.4.7
@@ -56,7 +55,7 @@ class WP_Plugin_Annual_Archive {
 		$this->_set_options();
 
 		// load text domain for translations
-		load_plugin_textdomain( $this->domain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain('anual-archive');
 
 		// add actions
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
@@ -235,7 +234,7 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'About', 'anual-archive' ) ?></h3>
 					<div class="inside">
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'anual-archive'); ?> <?php echo $this->version; ?></h4>
-						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget.  Yup, that is pretty much it.  Oh, one more thing: The plugin can be translated into any language using our %scommunity translation tool%s. Ok, that is really it.', 'anual-archive') ,'<a href="http://plugins.twinpictures.de/plugins/annual-archive/documentation/">','</a>', '<a href="http://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="http://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
+						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget. Oh, one more thing: The plugin can be translated into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">','</a>', '<a href="http://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="http://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
 						<ul>
 							<li>
 								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="http://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
