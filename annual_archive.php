@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: http://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.4.7
+Version: 1.4.8
 Author: Twinpictures
 Author URI: http://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.4.7';
+	var $version = '1.4.8';
 	var $domain = 'anarch';
 
 	/**
@@ -113,6 +113,7 @@ class WP_Plugin_Annual_Archive {
 			'tag' => 'ul',
 			'order' => 'DESC',
 			'select_text' => '',
+			'post_type' => 'post',
 		), $atts));
 
 		if ($format == 'option') {
@@ -135,10 +136,10 @@ class WP_Plugin_Annual_Archive {
 				}
 			}
 			$arc = '<select name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;"> <option value="">'.esc_attr($dtitle).'</option>';
-			$arc .= wp_get_archives(array('type' => $type, 'limit' => $limit, 'format' => 'option', 'show_post_count' => $showcount, 'order' => $order, 'echo' => 0)).'</select>';
+			$arc .= wp_get_archives(array('type' => $type, 'limit' => $limit, 'format' => 'option', 'show_post_count' => $showcount, 'post_type' => $post_type, 'order' => $order, 'echo' => 0)).'</select>';
 		} else {
 			$arc = '<'.$tag.'>';
-			$arc .= wp_get_archives(array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $showcount, 'order' => $order, 'echo' => 0));
+			$arc .= wp_get_archives(array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $showcount, 'post_type' => $post_type, 'order' => $order, 'echo' => 0));
 			$arc .= '</'.$tag.'>';
 		}
 		return $arc;
@@ -255,12 +256,12 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
 					<div class="inside">
 						<p><?php printf(__( '%sArchive-Pro-Matic%s is our premium plugin that adds the ability to display archives by <strong>post type</strong> or <strong>category</strong>', 'anual-archive' ), '<a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
-						<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Star Wars Day Discount:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before May 4th, 2016 using discount code MAYTHE4TH and receive 10% off.</p>
+						<?php /*<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Star Wars Day Discount:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before May 4th, 2016 using discount code MAYTHE4TH and receive 10% off.</p> */ ?>
 						<h4><?php _e('Reasons To Go Pro', 'anual-archive'); ?></h4>
 						<ol>
 							<li><?php _e("You are an advanced user and want/need advanced features", "anual-archive"); ?></li>
 							<li><?php _e("Annual Archive was just what you needed and you'd like to put a bit of bread in our jar", "anual-archive"); ?></li>
-							<li><?php _e("Because MAYTHE4TH is strong with this one", "anual-archive"); ?></li>
+							<?php /*<li><?php _e("Because MAYTHE4TH is strong with this one", "anual-archive"); ?></li>*/ ?>
 						</ol>
 					</div>
 				</div>
@@ -325,7 +326,7 @@ class Annual_Archive_Widget extends WP_Widget {
 	$count = empty($instance['count']) ? 0 : $instance['count'];
 	$order = empty($instance['order']) ? 'DESC' : apply_filters('widget_order', $instance['order']);
 	$select_text = empty($instance['select_text']) ? '' : apply_filters('widget_slelect_text', $instance['select_text']);
-
+	$post_type = empty($instance['post_type']) ? 'post' : apply_filters('widget_post_type', $instance['post_type']);
 	echo $before_widget;
 	if ( $title )
 		echo $before_title . $title . $after_title;
@@ -355,7 +356,7 @@ class Annual_Archive_Widget extends WP_Widget {
 	} else {
 	?>
 	<ul>
-	<?php wp_get_archives(apply_filters('widget_archive_args', array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $count, 'order' => $order))); ?>
+	<?php wp_get_archives(apply_filters('widget_archive_args', array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $count, 'post_type' => $post_type, 'order' => $order))); ?>
 	</ul>
 	<?php
 	}
@@ -379,6 +380,7 @@ class Annual_Archive_Widget extends WP_Widget {
 		$after = empty($instance['after']) ? '' : stripslashes($instance['after']);
 		$type = empty($instance['type']) ? '' : strip_tags($instance['type']);
 		$limit = empty($instance['limit']) ? '' : stripslashes($instance['limit']);
+		$post_type = empty($instance['post_type']) ? 'post' : stripslashes($instance['post_type']);
 		$order = empty($instance['order']) ? 'DESC' : stripslashes($instance['order']);
 		$select_text = empty($instance['select_text']) ? '' : stripslashes($instance['select_text']);
         ?>
@@ -425,6 +427,27 @@ class Annual_Archive_Widget extends WP_Widget {
 		</select></lable><br/>
 		<span class="description"><a href="http://codex.wordpress.org/Function_Reference/wp_get_archives#Parameters" target="_blank"><?php _e('Format details', 'anual-archive'); ?></a></span>
 	</p>
+
+
+	<p><label><?php _e('Post Type:', 'anual-archive'); ?> <select name="<?php echo $this->get_field_name('post_type'); ?>" id="<?php echo $this->get_field_id('post_type'); ?>">
+		<?php
+		$pt_args = array(
+			'public' => true
+		);
+		$post_types = get_post_types($pt_args);
+		foreach($post_types as $type){
+			$selected = '';
+			if($type == $post_type ){
+				$selected = 'SELECTED';
+			}
+			echo '<option value="'.$type.'" '.$selected.'>'.$type.'</option>';
+		}
+		?>
+		</select></lable><br/>
+		<span class="description"><a href="http://codex.wordpress.org/Function_Reference/wp_get_archives#Parameters" target="_blank"><?php _e('Post Type', 'anual-archive'); ?></a></span>
+	</p>
+
+
 	<p><label for="<?php echo $this->get_field_id('before'); ?>"><?php _e('Text Before Link:', 'anual-archive'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('before'); ?>" name="<?php echo $this->get_field_name('before'); ?>" type="text" value="<?php echo $before; ?>" /></p>
 	<p><label for="<?php echo $this->get_field_id('after'); ?>"><?php _e('Text After Link:', 'anual-archive'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('after'); ?>" name="<?php echo $this->get_field_name('after'); ?>" type="text" value="<?php echo $after; ?>" /></p>
 	<p><label for="<?php echo $this->get_field_id('select_text'); ?>"><?php _e('Select Text:', 'anual-archive'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('select_text'); ?>" name="<?php echo $this->get_field_name('select_text'); ?>" type="text" value="<?php echo $select_text; ?>" /></p>
