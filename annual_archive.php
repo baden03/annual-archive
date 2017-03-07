@@ -2,11 +2,11 @@
 /*
 Plugin Name: Annual Archive
 Text Domain: anual-archive
-Plugin URI: http://plugins.twinpictures.de/plugins/annual-archive/
+Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.4.8
+Version: 1.4.9
 Author: Twinpictures
-Author URI: http://www.twinpictures.de/
+Author URI: https://www.twinpictures.de/
 License: GPL2
 */
 
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.4.8';
+	var $version = '1.4.9';
 	var $domain = 'anarch';
 
 	/**
@@ -171,8 +171,8 @@ class WP_Plugin_Annual_Archive {
 						__('tasted great, while also being less filling', 'anual-archive'),
 						__('caused you to shout: "everybody spread love, give me some mo!"', 'anual-archive'),
 						__('helped you keep the funk alive', 'anual-archive'),
-						__('<a href="http://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', 'anual-archive'),
-						__('helped that little old lady <a href="http://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', 'anual-archive')
+						__('<a href="https://www.youtube.com/watch?v=dvQ28F5fOdU" target="_blank">soften hands while you do dishes</a>', 'anual-archive'),
+						__('helped that little old lady <a href="https://www.youtube.com/watch?v=Ug75diEyiA0" target="_blank">find the beef</a>', 'anual-archive')
 					);
 	$rand_key = array_rand($like_it_arr);
 	$like_it = $like_it_arr[$rand_key];
@@ -206,7 +206,7 @@ class WP_Plugin_Annual_Archive {
 									<tr>
 										<th><?php _e( 'Go Pro', 'anual-archive' ) ?>:</th>
 										<td>
-											<p><?php printf(__( '%sArchive-Pro-Matic%s adds the ability to display archives by <strong>post type</strong>, <strong>custom post type</strong> and <strong>category</strong>.  In addition it comes with next-level support that alone is well worth the price of admission.', 'anual-archive' ), '<a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
+											<p><?php printf(__( '%sArchive-Pro-Matic%s adds the ability to display archives by <strong>post type</strong>, <strong>custom post type</strong> and <strong>category</strong>.  In addition it comes with %svery high level of personal support%s&mdash;that alone is well worth the price of admission.', 'anual-archive' ), '<a href="https://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>', '<a href="https://plugins.twinpictures.de/testimonial/archive-pro-matic-testimonias&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-support">', '</a>'); ?></p>
 										</td>
 									</tr>
 
@@ -235,13 +235,13 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'About', 'anual-archive' ) ?></h3>
 					<div class="inside">
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'anual-archive'); ?> <?php echo $this->version; ?></h4>
-						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget. Oh, one more thing: The plugin can be translated into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">','</a>', '<a href="http://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="http://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
+						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget. Oh, one more thing: The plugin can be translated into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
 						<ul>
 							<li>
-								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="http://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
+								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
 							</li>
-							<li><?php printf( __('If this plugin %s, please consider %ssharing your story%s with others.', 'anual-archive'), $like_it, '<a href="http://www.facebook.com/twinpictures" target="_blank">', '</a>' ) ?></li>
-							<li><?php printf( __('Your %sreviews%s, %sbug-reports, feedback%s and %scocktail recipes%s are always welcomed.', 'anual-archive'), '<a href="http://wordpress.org/support/view/plugin-reviews/anual-archive">', '</a>', '<a href="http://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="http://www.facebook.com/twinpictures">', '</a>'); ?></li>
+							<li><?php printf( __('If this plugin %s, please consider %ssharing your story%s with others.', 'anual-archive'), $like_it, '<a href="https://www.facebook.com/twinpictures" target="_blank">', '</a>' ) ?></li>
+							<li><?php printf( __('Your %sreviews%s, %sbug-reports, feedback%s and %scocktail recipes%s are always welcomed.', 'anual-archive'), '<a href="https://wordpress.org/support/view/plugin-reviews/anual-archive">', '</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://www.facebook.com/twinpictures">', '</a>'); ?></li>
 						</ul>
 					</div>
 				</div>
@@ -255,8 +255,8 @@ class WP_Plugin_Annual_Archive {
 					<div class="handlediv" title="<?php _e( 'Click to toggle' ) ?>"><br/></div>
 					<h3 class="handle"><?php _e( 'Level Up!' ) ?></h3>
 					<div class="inside">
-						<p><?php printf(__( '%sArchive-Pro-Matic%s is our premium plugin that adds the ability to display archives by <strong>post type</strong> or <strong>category</strong>', 'anual-archive' ), '<a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
-						<?php /*<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Star Wars Day Discount:</strong> <a href="http://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before May 4th, 2016 using discount code MAYTHE4TH and receive 10% off.</p> */ ?>
+						<p><?php printf(__( '%sArchive-Pro-Matic%s is our premium plugin that adds the ability to display archives by <strong>post type</strong> or <strong>category</strong>', 'anual-archive' ), '<a href="https://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>'); ?></p>
+						<?php /*<p style="padding: 5px; border: 1px dashed #cccc66; background: #EEE;"><strong>Star Wars Day Discount:</strong> <a href="https://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-year-end">Update to Archive-Pro-Matic</a> before May 4th, 2016 using discount code MAYTHE4TH and receive 10% off.</p> */ ?>
 						<h4><?php _e('Reasons To Go Pro', 'anual-archive'); ?></h4>
 						<ol>
 							<li><?php _e("You are an advanced user and want/need advanced features", "anual-archive"); ?></li>
@@ -425,7 +425,7 @@ class Annual_Archive_Widget extends WP_Widget {
 		}
 		?>
 		</select></lable><br/>
-		<span class="description"><a href="http://codex.wordpress.org/Function_Reference/wp_get_archives#Parameters" target="_blank"><?php _e('Format details', 'anual-archive'); ?></a></span>
+		<span class="description"><a href="https://codex.wordpress.org/Function_Reference/wp_get_archives#Parameters" target="_blank"><?php _e('Format details', 'anual-archive'); ?></a></span>
 	</p>
 
 
@@ -444,7 +444,7 @@ class Annual_Archive_Widget extends WP_Widget {
 		}
 		?>
 		</select></lable><br/>
-		<span class="description"><a href="http://codex.wordpress.org/Function_Reference/wp_get_archives#Parameters" target="_blank"><?php _e('Post Type', 'anual-archive'); ?></a></span>
+		<span class="description"><a href="https://codex.wordpress.org/Function_Reference/wp_get_archives#Parameters" target="_blank"><?php _e('Post Type', 'anual-archive'); ?></a></span>
 	</p>
 
 

@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: http://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.0
-Tested up to: 4.6
-Stable tag: 1.4.8
+Tested up to: 4.7.3
+Stable tag: 1.4.9
 
 Display daily, weekly, monthly or annual archives with a sidebar widget or shortcode.
 
@@ -56,9 +56,13 @@ Scares the crap out of the seeing-eye-dogs.
 
 == Changelog ==
 
+= 1.4.9 =
+* tested with WordPress 4.7.3
+* updated links to https
+
 = 1.4.8 =
 * added post_type filter
-* tested with WordPress 4.6
+* tested with WordPress 4.7
 
 = 1.4.7 =
 * added backup shortcode ‘arcpromat’ incase of shortcode conflict with ‘archives’
@@ -113,4 +117,5 @@ Scares the crap out of the seeing-eye-dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-Added new archpromat shortcode incase of conflict with archives. Works 100% with WordPress 4.5 and WordPress language packs.
+Works 100% with WordPress 4.7.3
+Links updated to https, like a good plugin should.
