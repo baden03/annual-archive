@@ -4,9 +4,9 @@ Annual Archive
 * Contributors: twinpictures, baden03
 * Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 * Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
-* Requires at least: 4.0
-* Tested up to: 4.8
-* Stable tag: 1.4.10
+* Requires at least: 4.7
+* Tested up to: 4.9.2
+* Stable tag: 1.5.0b
 * License: GPLv2 or later
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
