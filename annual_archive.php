@@ -3,8 +3,8 @@
 Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
-Description: Display daily, weekly, monthly, yearly, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.4.9
+Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
+Version: 1.5.0b
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.4.9';
+	var $version = '1.5.0b';
 	var $domain = 'anarch';
 
 	/**
@@ -61,7 +61,8 @@ class WP_Plugin_Annual_Archive {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'plugin_actions' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action('wp_head', array( $this, 'plugin_head_inject' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'archive_admin_js_scripts' ) );
+		add_action( 'wp_head', array( $this, 'plugin_head_inject' ) );
 
 		// add shortcode
 		add_shortcode('archives', array($this, 'shortcode'));
@@ -99,6 +100,257 @@ class WP_Plugin_Annual_Archive {
 		register_setting( $this->domain, $this->options_name );
 	}
 
+	//load scripts on the widget admin page
+	function archive_admin_js_scripts($hook){
+		global $pagenow;
+		if( $hook == 'widgets.php' && $pagenow != 'customize.php'){
+			$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
+			wp_register_script('archive-admin-script', $plugin_url.'/js/widget_form.js', array ('jquery'), '0.1', true);
+			wp_enqueue_script('archive-admin-script');
+		}
+	}
+
+	/**
+	* Advaned wp_get_archives
+	* adds the ability to order alpha and postbypost Archives
+	* adds archive by decade
+	**/
+	static function wp_get_archives_advanced( $args = '' ) {
+		global $wpdb, $wp_locale;
+
+		$defaults = array(
+			'type'            => 'monthly',
+			'limit'           => '',
+			'format'          => 'html',
+			'before'          => '',
+			'after'           => '',
+			'show_post_count' => false,
+			'echo'            => 1,
+			'order'           => 'DESC',
+	        'alpha_order'      => 'ASC',
+	        'post_order'       => 'DESC',
+			'post_type'       => 'post',
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+
+		$post_type_object = get_post_type_object( $r['post_type'] );
+		if ( ! is_post_type_viewable( $post_type_object ) ) {
+			return;
+		}
+		$r['post_type'] = $post_type_object->name;
+
+		if ( '' == $r['type'] ) {
+			$r['type'] = 'monthly';
+		}
+
+		if ( ! empty( $r['limit'] ) ) {
+			$r['limit'] = absint( $r['limit'] );
+			$r['limit'] = ' LIMIT ' . $r['limit'];
+		}
+
+		$order = strtoupper( $r['order'] );
+		if ( $order !== 'ASC' ) {
+			$order = 'DESC';
+		}
+
+		// this is what will separate dates on weekly archive links
+		$archive_week_separator = '&#8211;';
+
+		$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $r['post_type'] );
+
+		/**
+		 * Filters the SQL WHERE clause for retrieving archives.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $sql_where Portion of SQL query containing the WHERE clause.
+		 * @param array  $r         An array of default arguments.
+		 */
+		$where = apply_filters( 'getarchives_where', $sql_where, $r );
+
+		/**
+		 * Filters the SQL JOIN clause for retrieving archives.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $sql_join Portion of SQL query containing JOIN clause.
+		 * @param array  $r        An array of default arguments.
+		 */
+		$join = apply_filters( 'getarchives_join', '', $r );
+
+		$output = '';
+
+		$last_changed = wp_cache_get_last_changed( 'posts' );
+
+		$limit = $r['limit'];
+
+		if ( 'monthly' == $r['type'] ) {
+			$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date $order $limit";
+			$key   = md5( $query );
+			$key   = "wp_get_archives:$key:$last_changed";
+			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+				$results = $wpdb->get_results( $query );
+				wp_cache_set( $key, $results, 'posts' );
+			}
+			if ( $results ) {
+				$after = $r['after'];
+				foreach ( (array) $results as $result ) {
+					$url = get_month_link( $result->year, $result->month );
+					if ( 'post' !== $r['post_type'] ) {
+						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+					}
+					/* translators: 1: month name, 2: 4-digit year */
+					$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
+					if ( $r['show_post_count'] ) {
+						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
+					}
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+				}
+			}
+		} elseif ( 'yearly' == $r['type'] ) {
+			$query = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
+			$key   = md5( $query );
+			$key   = "wp_get_archives:$key:$last_changed";
+			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+				$results = $wpdb->get_results( $query );
+				wp_cache_set( $key, $results, 'posts' );
+			}
+			if ( $results ) {
+				$after = $r['after'];
+				foreach ( (array) $results as $result ) {
+					$url = get_year_link( $result->year );
+					if ( 'post' !== $r['post_type'] ) {
+						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+					}
+					$text = sprintf( '%d', $result->year );
+					if ( $r['show_post_count'] ) {
+						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
+					}
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+				}
+			}
+		} elseif ( 'daily' == $r['type'] ) {
+			$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date $order $limit";
+			$key   = md5( $query );
+			$key   = "wp_get_archives:$key:$last_changed";
+			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+				$results = $wpdb->get_results( $query );
+				wp_cache_set( $key, $results, 'posts' );
+			}
+			if ( $results ) {
+				$after = $r['after'];
+				foreach ( (array) $results as $result ) {
+					$url = get_day_link( $result->year, $result->month, $result->dayofmonth );
+					if ( 'post' !== $r['post_type'] ) {
+						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+					}
+					$date = sprintf( '%1$d-%2$02d-%3$02d 00:00:00', $result->year, $result->month, $result->dayofmonth );
+					$text = mysql2date( get_option( 'date_format' ), $date );
+					if ( $r['show_post_count'] ) {
+						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
+					}
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+				}
+			}
+		} elseif ( 'weekly' == $r['type'] ) {
+			$week  = _wp_mysql_week( '`post_date`' );
+			$query = "SELECT DISTINCT $week AS `week`, YEAR( `post_date` ) AS `yr`, DATE_FORMAT( `post_date`, '%Y-%m-%d' ) AS `yyyymmdd`, count( `ID` ) AS `posts` FROM `$wpdb->posts` $join $where GROUP BY $week, YEAR( `post_date` ) ORDER BY `post_date` $order $limit";
+			$key   = md5( $query );
+			$key   = "wp_get_archives:$key:$last_changed";
+			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+				$results = $wpdb->get_results( $query );
+				wp_cache_set( $key, $results, 'posts' );
+			}
+			$arc_w_last = '';
+			if ( $results ) {
+				$after = $r['after'];
+				foreach ( (array) $results as $result ) {
+					if ( $result->week != $arc_w_last ) {
+						$arc_year       = $result->yr;
+						$arc_w_last     = $result->week;
+						$arc_week       = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
+						$arc_week_start = date_i18n( get_option( 'date_format' ), $arc_week['start'] );
+						$arc_week_end   = date_i18n( get_option( 'date_format' ), $arc_week['end'] );
+						$url            = add_query_arg(
+							array(
+								'm' => $arc_year,
+								'w' => $result->week,
+							), home_url( '/' )
+						);
+						if ( 'post' !== $r['post_type'] ) {
+							$url = add_query_arg( 'post_type', $r['post_type'], $url );
+						}
+						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
+						if ( $r['show_post_count'] ) {
+							$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
+						}
+						$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+					}
+				}
+			}
+		} elseif ( 'decade' == $r['type'] ) {
+			//$query = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
+	        $query = "SELECT count(*), decade, decade + 9 FROM (SELECT FLOOR(YEAR(post_date) / 10) * 10 AS decade FROM $wpdb->posts $join $where) t GROUP BY decade $order $limit";
+	        $key   = md5( $query );
+			$key   = "wp_get_archives:$key:$last_changed";
+			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+				$results = $wpdb->get_results( $query );
+				wp_cache_set( $key, $results, 'posts' );
+			}
+			if ( $results ) {
+				$after = $r['after'];
+				foreach ( (array) $results as $result ) {
+					$url = get_year_link($result->decade).'?decade='.$result->decade;
+					if ( 'post' !== $r['post_type'] ) {
+						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+					}
+					$text = sprintf( '%d\'s', $result->decade );
+					if ( $r['show_post_count'] ) {
+						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
+					}
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+				}
+			}
+		} elseif ( ( 'postbypost' == $r['type'] ) || ( 'alpha' == $r['type'] ) ) {
+	        $alpha_order = strtoupper( $r['alpha_order'] );
+	        if ( $alpha_order !== 'ASC' ) {
+	    		$alpha_order = 'DESC';
+	    	}
+	        $post_order = strtoupper( $r['post_order'] );
+	        if ( $post_order !== 'DESC' ) {
+	    		$post_order = 'ASC';
+	    	}
+	        $orderby = ( 'alpha' == $r['type'] ) ? 'post_title '.$alpha_order. ' ' : 'post_date '.$post_order.', ID DESC ';
+			$query   = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
+			$key     = md5( $query );
+			$key     = "wp_get_archives:$key:$last_changed";
+			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+				$results = $wpdb->get_results( $query );
+				wp_cache_set( $key, $results, 'posts' );
+			}
+			if ( $results ) {
+				foreach ( (array) $results as $result ) {
+					if ( $result->post_date != '0000-00-00 00:00:00' ) {
+						$url = get_permalink( $result );
+						if ( $result->post_title ) {
+							/** This filter is documented in wp-includes/post-template.php */
+							$text = strip_tags( apply_filters( 'the_title', $result->post_title, $result->ID ) );
+						} else {
+							$text = $result->ID;
+						}
+						$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+					}
+				}
+			}
+		}
+		if ( $r['echo'] ) {
+			echo $output;
+		} else {
+			return $output;
+		}
+	}
+
 	/**
 	 * Callback shortcode
 	 */
@@ -112,6 +364,8 @@ class WP_Plugin_Annual_Archive {
 			'showcount' => '0',
 			'tag' => 'ul',
 			'order' => 'DESC',
+			'alpha_order' => 'ASC',
+			'post_order' => 'DESC',
 			'select_text' => '',
 			'post_type' => 'post',
 		), $atts));
@@ -136,10 +390,24 @@ class WP_Plugin_Annual_Archive {
 				}
 			}
 			$arc = '<select name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;"> <option value="">'.esc_attr($dtitle).'</option>';
-			$arc .= wp_get_archives(array('type' => $type, 'limit' => $limit, 'format' => 'option', 'show_post_count' => $showcount, 'post_type' => $post_type, 'order' => $order, 'echo' => 0)).'</select>';
+			$arc .= WP_Plugin_Annual_Archive::wp_get_archives_advanced(array('type' => $type, 'limit' => $limit, 'format' => 'option', 'show_post_count' => $showcount, 'post_type' => $post_type, 'order' => $order, 'alpha_order' => $alpha_order, 'post_order' => $post_order, 'echo' => 0)).'</select>';
 		} else {
 			$arc = '<'.$tag.'>';
-			$arc .= wp_get_archives(array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $showcount, 'post_type' => $post_type, 'order' => $order, 'echo' => 0));
+			$arch_arr = array(
+				'type' => $type,
+				'limit' => $limit,
+				'format' => $format,
+				'before' => $before,
+				'after' => $after,
+				'show_post_count' => $showcount,
+				'post_type' => $post_type,
+				'order' => $order,
+				'alpha_order' => $alpha_order,
+				'post_order' => $post_order,
+				'echo' => 0
+			);
+
+			$arc .= WP_Plugin_Annual_Archive::wp_get_archives_advanced($arch_arr);
 			$arc .= '</'.$tag.'>';
 		}
 		return $arc;
@@ -235,7 +503,7 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'About', 'anual-archive' ) ?></h3>
 					<div class="inside">
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'anual-archive'); ?> <?php echo $this->version; ?></h4>
-						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget. Oh, one more thing: The plugin can be translated into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
+						<p><?php printf( __('Annual Archive widget extends the default WordPress Archive widget to allow daily, weekly, monthly, yearly, decade, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget&mdash;and even placed in a post or page by using a shortcode. A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. The Annual Archive widget&mdash;A better archive widget. Oh, one more thing: The plugin can be translated into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
 						<ul>
 							<li>
 								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
@@ -325,6 +593,8 @@ class Annual_Archive_Widget extends WP_Widget {
 	$title = apply_filters('widget_title', empty($instance['title']) ? __('Annual Archive', 'anual-archive') : $instance['title'], $instance, $this->id_base);
 	$count = empty($instance['count']) ? 0 : $instance['count'];
 	$order = empty($instance['order']) ? 'DESC' : apply_filters('widget_order', $instance['order']);
+	$alpha_order = empty($instance['alpha_order']) ? 'ASC' : apply_filters('widget_alpha_order', $instance['alpha_order']);
+	$post_order = empty($instance['post_order']) ? 'DESC' : apply_filters('widget_post_order', $instance['post_order']);
 	$select_text = empty($instance['select_text']) ? '' : apply_filters('widget_slelect_text', $instance['select_text']);
 	$post_type = empty($instance['post_type']) ? 'post' : apply_filters('widget_post_type', $instance['post_type']);
 	echo $before_widget;
@@ -351,12 +621,12 @@ class Annual_Archive_Widget extends WP_Widget {
 			}
 		}
 	?>
-	<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo esc_attr(__($dtitle, 'anual-archive')); ?></option> <?php wp_get_archives(apply_filters('widget_archive_dropdown_args', array('type' => $type, 'format' => 'option', 'show_post_count' => $count, 'limit' => $limit, 'order' => $order))); ?> </select>
+	<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo esc_attr(__($dtitle, 'anual-archive')); ?></option> <?php WP_Plugin_Annual_Archive::wp_get_archives_advanced(apply_filters('widget_archive_dropdown_args', array('type' => $type, 'format' => 'option', 'show_post_count' => $count, 'limit' => $limit, 'order' => $order, 'alpha_order' => $alpha_order, 'post_order' => $post_order))); ?> </select>
 	<?php
 	} else {
 	?>
 	<ul>
-	<?php wp_get_archives(apply_filters('widget_archive_args', array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $count, 'post_type' => $post_type, 'order' => $order))); ?>
+	<?php WP_Plugin_Annual_Archive::wp_get_archives_advanced(apply_filters('widget_archive_args', array('type' => $type, 'limit' => $limit, 'format' => $format, 'before' => $before, 'after' => $after, 'show_post_count' => $count, 'post_type' => $post_type, 'order' => $order, 'alpha_order' => $alpha_order, 'post_order' => $post_order))); ?>
 	</ul>
 	<?php
 	}
@@ -382,27 +652,51 @@ class Annual_Archive_Widget extends WP_Widget {
 		$limit = empty($instance['limit']) ? '' : stripslashes($instance['limit']);
 		$post_type = empty($instance['post_type']) ? 'post' : stripslashes($instance['post_type']);
 		$order = empty($instance['order']) ? 'DESC' : stripslashes($instance['order']);
+		$alpha_order = empty($instance['alpha_order']) ? 'DESC' : stripslashes($instance['alpha_order']);
+		$post_order = empty($instance['post_order']) ? 'DESC' : stripslashes($instance['post_order']);
 		$select_text = empty($instance['select_text']) ? '' : stripslashes($instance['select_text']);
         ?>
 
         <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','anual-archive'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label></p>
 		<p><label for="<?php echo $this->get_field_id('count'); ?>"><input type="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" value="1" <?php checked( $count, 1 ); ?>/>&nbsp;&nbsp;<?php _e('Show post counts', 'anual-archive'); ?></label></p>
-		<p><label><?php _e('Archive type:', 'anual-archive'); ?> <select name="<?php echo $this->get_field_name('type'); ?>" id="<?php echo $this->get_field_id('type'); ?>">
+		<p><label><?php _e('Archive type:', 'anual-archive'); ?> <select name="<?php echo $this->get_field_name('type'); ?>" id="<?php echo $this->get_field_id('type'); ?>" class="annual_archive_type_select">
 		<?php
 		$types_arr = array(
 			'daily' => __('Daily', 'anual-archive'),
 			'weekly' => __('Weekly', 'anual-archive'),
 			'monthly' => __('Monthly', 'anual-archive'),
 			'yearly' => __('Yearly', 'anual-archive'),
-			'postbypost' => __('Post By Post', 'anual-archive'),
-			'alpha' => __('Alpha', 'anual-archive')
+			'decade' => __('Decade', 'anual-archive'),
+			'alpha' => __('Alpha', 'anual-archive'),
+			'postbypost' => __('Post By Post', 'anual-archive')
 		);
+
+		$order_style = '';
+		$alpha_style = 'style="display: none;"';
+		$post_style = 'style="display: none;"';
+
 		foreach($types_arr as $key => $value){
 			$selected = '';
 			if($key == $type || (!$type && $key == 'yearly')){
 				$selected = 'SELECTED';
 			}
-			echo '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
+			//order switcher
+			$data_att = 'data-orderfield="wrap_'.$this->get_field_id('order').'"';
+			if($key == 'alpha'){
+				$data_att = 'data-orderfield="wrap_'.$this->get_field_id('alpha_order').'"';
+				if($key == $type){
+					$order_style = 'style="display: none;"';
+					$alpha_style = '';
+				}
+			}
+			if($key == 'postbypost'){
+				$data_att = 'data-orderfield="wrap_'.$this->get_field_id('post_order').'"';
+				if($key == $type){
+					$order_style = 'style="display: none;"';
+					$post_style = '';
+				}
+			}
+			echo '<option value="'.$key.'" '.$data_att.' '.$selected.'>'.$value.'</option>';
 		}
 		?>
 		</select></lable>
@@ -452,7 +746,9 @@ class Annual_Archive_Widget extends WP_Widget {
 	<p><label for="<?php echo $this->get_field_id('after'); ?>"><?php _e('Text After Link:', 'anual-archive'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('after'); ?>" name="<?php echo $this->get_field_name('after'); ?>" type="text" value="<?php echo $after; ?>" /></p>
 	<p><label for="<?php echo $this->get_field_id('select_text'); ?>"><?php _e('Select Text:', 'anual-archive'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('select_text'); ?>" name="<?php echo $this->get_field_name('select_text'); ?>" type="text" value="<?php echo $select_text; ?>" /></p>
 	<p><label for="<?php echo $this->get_field_id('limit'); ?>"><?php _e('Number of archives to display:', 'anual-archive'); ?></label> <input class="widefat" style="width: 50px;" id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="text" value="<?php echo esc_attr($limit); ?>" /></p>
-	<p><label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Sort order:', 'anual-archive'); ?></label> <input name="<?php echo $this->get_field_name('order'); ?>" type="radio" value="DESC" <?php checked( $order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('order'); ?>" type="radio" value="ASC" <?php checked( $order, 'ASC' ); ?>  />  ASC</p>
+	<p id="wrap_<?php echo $this->get_field_id('order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $order_style; ?>><label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Sort order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>" type="radio" value="DESC" <?php checked( $order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('order'); ?>" type="radio" value="ASC" <?php checked( $order, 'ASC' ); ?>  />  ASC</p>
+	<p id="wrap_<?php echo $this->get_field_id('alpha_order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $alpha_style; ?>><label for="<?php echo $this->get_field_id('alpha_order'); ?>"><?php _e('Alpha order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('alpha_order'); ?>" name="<?php echo $this->get_field_name('alpha_order'); ?>" type="radio" value="ASC" <?php checked( $alpha_order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('alpha_order'); ?>" type="radio" value="ASC" <?php checked( $alpha_order, 'ASC' ); ?>  />  ASC</p>
+	<p id="wrap_<?php echo $this->get_field_id('post_order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $post_style; ?>><label for="<?php echo $this->get_field_id('post_order'); ?>"><?php _e('Post order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('post_order'); ?>" name="<?php echo $this->get_field_name('post_order'); ?>" type="radio" value="DESC" <?php checked( $post_order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('post_order'); ?>" type="radio" value="ASC" <?php checked( $post_order, 'ASC' ); ?>  />  ASC</p>
 	<?php
     }
 } // class Annual_Archive_Widget
@@ -463,4 +759,38 @@ function anarch_register_widget() {
 }
 add_action( 'widgets_init', 'anarch_register_widget' );
 
+// Add decade to the query args
+function annual_archive_query_vars($vars) {
+  $vars[] = 'decade';
+  return $vars;
+}
+add_filter( 'query_vars', 'annual_archive_query_vars' );
+
+//check for decade query var
+function annual_archive_decade_filter( $query ) {
+	$decade = get_query_var( 'decade' );
+	if(!empty($decade) && $query->is_archive){
+		$start = $decade.'-01-01';
+		$end = ($decade+9).'-12-31';
+		$query->set('year', '');
+		$query->set( 'date_query',
+		    array (
+				'after'     => $start,
+				'before'	=> $end,
+				'inclusive' => true,
+		    )
+		);
+	}
+}
+add_filter( 'pre_get_posts', 'annual_archive_decade_filter' );
+
+//modify the title
+function annual_archive_decade_title($title) {
+	$decade = get_query_var( 'decade' );
+	if(!empty($decade)){
+        $title = __('The').' '.$decade.'\'s';
+    }
+    return $title;
+}
+add_filter( 'get_the_archive_title', 'annual_archive_decade_title');
 ?>
