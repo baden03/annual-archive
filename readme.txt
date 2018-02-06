@@ -7,7 +7,7 @@ Requires at least: 4.7
 Tested up to: 4.9.3
 Stable tag: 1.5.0
 
-Display daily, weekly, monthly or annual archives with a sidebar widget or shortcode.
+Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
 
 == Description ==
 
