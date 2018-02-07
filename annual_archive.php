@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.5.0
+Version: 1.5.1a
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.0';
+	var $version = '1.5.1a';
 	var $domain = 'anarch';
 
 	/**
@@ -188,7 +188,7 @@ class WP_Plugin_Annual_Archive {
 		if ( 'monthly' == $r['type'] ) {
 			$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date $order $limit";
 			$key   = md5( $query );
-			$key   = "wp_get_archives:$key:$last_changed";
+			$key   = "wp_get_archives_advanced:$key:$last_changed";
 			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
@@ -211,7 +211,8 @@ class WP_Plugin_Annual_Archive {
 		} elseif ( 'yearly' == $r['type'] ) {
 			$query = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
 			$key   = md5( $query );
-			$key   = "wp_get_archives:$key:$last_changed";
+			$key   = "wp_get_archives_advanced:$key:$last_changed";
+
 			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
@@ -233,7 +234,7 @@ class WP_Plugin_Annual_Archive {
 		} elseif ( 'daily' == $r['type'] ) {
 			$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date $order $limit";
 			$key   = md5( $query );
-			$key   = "wp_get_archives:$key:$last_changed";
+			$key   = "wp_get_archives_advanced:$key:$last_changed";
 			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
@@ -257,7 +258,7 @@ class WP_Plugin_Annual_Archive {
 			$week  = _wp_mysql_week( '`post_date`' );
 			$query = "SELECT DISTINCT $week AS `week`, YEAR( `post_date` ) AS `yr`, DATE_FORMAT( `post_date`, '%Y-%m-%d' ) AS `yyyymmdd`, count( `ID` ) AS `posts` FROM `$wpdb->posts` $join $where GROUP BY $week, YEAR( `post_date` ) ORDER BY `post_date` $order $limit";
 			$key   = md5( $query );
-			$key   = "wp_get_archives:$key:$last_changed";
+			$key   = "wp_get_archives_advanced:$key:$last_changed";
 			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
@@ -290,10 +291,9 @@ class WP_Plugin_Annual_Archive {
 				}
 			}
 		} elseif ( 'decade' == $r['type'] ) {
-			//$query = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
-	        $query = "SELECT count(*), decade, decade + 9 FROM (SELECT FLOOR(YEAR(post_date) / 10) * 10 AS decade FROM $wpdb->posts $join $where) t GROUP BY decade $order $limit";
+			$query = "SELECT count(*), decade, decade + 9 FROM (SELECT FLOOR(YEAR(post_date) / 10) * 10 AS decade FROM $wpdb->posts $join $where) t GROUP BY decade $order $limit";
 	        $key   = md5( $query );
-			$key   = "wp_get_archives:$key:$last_changed";
+			$key   = "wp_get_archives_advanced:$key:$last_changed";
 			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
@@ -324,7 +324,7 @@ class WP_Plugin_Annual_Archive {
 	        $orderby = ( 'alpha' == $r['type'] ) ? 'post_title '.$alpha_order. ' ' : 'post_date '.$post_order.', ID DESC ';
 			$query   = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
 			$key     = md5( $query );
-			$key     = "wp_get_archives:$key:$last_changed";
+			$key     = "wp_get_archives_advanced:$key:$last_changed";
 			if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
