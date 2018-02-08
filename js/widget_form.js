@@ -1,5 +1,5 @@
 /*
- * Annual Archive Widget Scripts v0.1
+ * Annual Archive Widget Scripts v0.2
  * https://wordpress.org/plugins/anual-archive/
  *
  * Copyright 2018, Twinpictures
@@ -25,7 +25,7 @@
  */
 
 (function($){
-	$('.annual_archive_type_select').on('change', function() {
+	$(document).on('change', '.annual_archive_type_select', function(event) {
 		var sel_id = this.id;
 		var sel_opt = $('option:selected', this).attr('data-orderfield');
 		//console.log(sel_id, sel_opt);
