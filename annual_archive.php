@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.5.1b
+Version: 1.5.1
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.1b';
+	var $version = '1.5.1';
 	var $domain = 'anarch';
 
 	/**
@@ -140,7 +140,7 @@ class WP_Plugin_Annual_Archive {
 		global $pagenow;
 		if( $hook == 'widgets.php' && $pagenow != 'customize.php'){
 			$plugin_url = plugins_url() .'/'. dirname( plugin_basename(__FILE__) );
-			wp_register_script('archive-admin-script', $plugin_url.'/js/widget_form.js', array ('jquery'), '0.1', true);
+			wp_register_script('archive-admin-script', $plugin_url.'/js/widget_form.js', array ('jquery'), '0.2', true);
 			wp_enqueue_script('archive-admin-script');
 		}
 	}
@@ -687,7 +687,7 @@ class Annual_Archive_Widget extends WP_Widget {
 		$limit = empty($instance['limit']) ? '' : stripslashes($instance['limit']);
 		$post_type = empty($instance['post_type']) ? 'post' : stripslashes($instance['post_type']);
 		$order = empty($instance['order']) ? 'DESC' : stripslashes($instance['order']);
-		$alpha_order = empty($instance['alpha_order']) ? 'DESC' : stripslashes($instance['alpha_order']);
+		$alpha_order = empty($instance['alpha_order']) ? 'ASC' : stripslashes($instance['alpha_order']);
 		$post_order = empty($instance['post_order']) ? 'DESC' : stripslashes($instance['post_order']);
 		$select_text = empty($instance['select_text']) ? '' : stripslashes($instance['select_text']);
         ?>
@@ -782,7 +782,7 @@ class Annual_Archive_Widget extends WP_Widget {
 	<p><label for="<?php echo $this->get_field_id('select_text'); ?>"><?php _e('Select Text:', 'anual-archive'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('select_text'); ?>" name="<?php echo $this->get_field_name('select_text'); ?>" type="text" value="<?php echo $select_text; ?>" /></p>
 	<p><label for="<?php echo $this->get_field_id('limit'); ?>"><?php _e('Number of archives to display:', 'anual-archive'); ?></label> <input class="widefat" style="width: 50px;" id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="text" value="<?php echo esc_attr($limit); ?>" /></p>
 	<p id="wrap_<?php echo $this->get_field_id('order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $order_style; ?>><label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Sort order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>" type="radio" value="DESC" <?php checked( $order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('order'); ?>" type="radio" value="ASC" <?php checked( $order, 'ASC' ); ?>  />  ASC</p>
-	<p id="wrap_<?php echo $this->get_field_id('alpha_order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $alpha_style; ?>><label for="<?php echo $this->get_field_id('alpha_order'); ?>"><?php _e('Alpha order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('alpha_order'); ?>" name="<?php echo $this->get_field_name('alpha_order'); ?>" type="radio" value="ASC" <?php checked( $alpha_order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('alpha_order'); ?>" type="radio" value="ASC" <?php checked( $alpha_order, 'ASC' ); ?>  />  ASC</p>
+	<p id="wrap_<?php echo $this->get_field_id('alpha_order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $alpha_style; ?>><label for="<?php echo $this->get_field_id('alpha_order'); ?>"><?php _e('Alpha order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('alpha_order'); ?>" name="<?php echo $this->get_field_name('alpha_order'); ?>" type="radio" value="DESC" <?php checked( $alpha_order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('alpha_order'); ?>" type="radio" value="ASC" <?php checked( $alpha_order, 'ASC' ); ?>  />  ASC</p>
 	<p id="wrap_<?php echo $this->get_field_id('post_order'); ?>" class="order_<?php echo $this->get_field_id('type'); ?>" <?php echo $post_style; ?>><label for="<?php echo $this->get_field_id('post_order'); ?>"><?php _e('Post order:', 'anual-archive'); ?></label> <input id="<?php echo $this->get_field_id('post_order'); ?>" name="<?php echo $this->get_field_name('post_order'); ?>" type="radio" value="DESC" <?php checked( $post_order, 'DESC' ); ?> /> DESC <input name="<?php echo $this->get_field_name('post_order'); ?>" type="radio" value="ASC" <?php checked( $post_order, 'ASC' ); ?>  />  ASC</p>
 	<?php
     }
