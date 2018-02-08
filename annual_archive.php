@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.5.1a
+Version: 1.5.1b
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.1a';
+	var $version = '1.5.1b';
 	var $domain = 'anarch';
 
 	/**
@@ -68,8 +68,43 @@ class WP_Plugin_Annual_Archive {
 		add_shortcode('archives', array($this, 'shortcode'));
 		add_shortcode('arcpromat', array($this, 'shortcode'));
 
-		// Add shortcode support for widgets
-		add_filter('widget_text', 'do_shortcode');
+		// add filters
+		add_filter( 'widget_text', 'do_shortcode' );
+		add_filter( 'query_vars', array($this, 'annual_archive_query_vars') );
+		add_filter( 'pre_get_posts', array($this, 'annual_archive_decade_filter') );
+		add_filter( 'get_the_archive_title', array($this, 'annual_archive_decade_title') );
+	}
+
+	// Add decade to the query args
+	function annual_archive_query_vars($vars) {
+	  $vars[] = 'decade';
+	  return $vars;
+	}
+
+	//check for decade query var
+	function annual_archive_decade_filter( $query ) {
+		$decade = get_query_var( 'decade' );
+		if(!empty($decade) && $query->is_archive){
+			$start = $decade.'-01-01';
+			$end = ($decade+9).'-12-31';
+			$query->set('year', '');
+			$query->set( 'date_query',
+			    array (
+					'after'     => $start,
+					'before'	=> $end,
+					'inclusive' => true,
+			    )
+			);
+		}
+	}
+
+	//modify the title
+	function annual_archive_decade_title($title) {
+		$decade = get_query_var( 'decade' );
+		if(!empty($decade)){
+	        $title = __('The').' '.$decade.'\'s';
+	    }
+	    return $title;
 	}
 
 	//plugin header inject
@@ -758,39 +793,4 @@ function anarch_register_widget() {
 	register_widget( 'Annual_Archive_Widget' );
 }
 add_action( 'widgets_init', 'anarch_register_widget' );
-
-// Add decade to the query args
-function annual_archive_query_vars($vars) {
-  $vars[] = 'decade';
-  return $vars;
-}
-add_filter( 'query_vars', 'annual_archive_query_vars' );
-
-//check for decade query var
-function annual_archive_decade_filter( $query ) {
-	$decade = get_query_var( 'decade' );
-	if(!empty($decade) && $query->is_archive){
-		$start = $decade.'-01-01';
-		$end = ($decade+9).'-12-31';
-		$query->set('year', '');
-		$query->set( 'date_query',
-		    array (
-				'after'     => $start,
-				'before'	=> $end,
-				'inclusive' => true,
-		    )
-		);
-	}
-}
-add_filter( 'pre_get_posts', 'annual_archive_decade_filter' );
-
-//modify the title
-function annual_archive_decade_title($title) {
-	$decade = get_query_var( 'decade' );
-	if(!empty($decade)){
-        $title = __('The').' '.$decade.'\'s';
-    }
-    return $title;
-}
-add_filter( 'get_the_archive_title', 'annual_archive_decade_title');
 ?>
