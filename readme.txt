@@ -5,13 +5,13 @@ Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 4.9.3
-Stable tag: 1.5.1a
+Stable tag: 1.5.1b
 
 Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
 
 == Description ==
 
-Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='https://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget. The plugin can be translated into any language using our community translation tool at: https://translate.twinpictures.de/projects/anual-archive/
+Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='https://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget. The plugin can be translated into any language using the WordPress community translation tool at: https://translate.wordpress.org/projects/wp-plugins/anual-archive
 
 == Installation ==
 
@@ -58,6 +58,7 @@ Scares the crap out of the seeing-eye-dogs.
 
 = 1.5.1 =
 * wp_get_archives_advanced function now reference itself to check for cached results
+* moved all filters inside class
 
 = 1.5.0 =
 * added new wp_get_archives_advanced function
