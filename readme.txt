@@ -4,8 +4,8 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
-Tested up to: 4.9.3
-Stable tag: 1.5.1
+Tested up to: 4.9.4
+Stable tag: 1.5.2a
 
 Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
 
@@ -55,6 +55,9 @@ Scares the crap out of the seeing-eye-dogs.
 1. Sidebar Widget - Alpha Archives
 
 == Changelog ==
+
+= 1.5.2 =
+* addressed issue with some themes throwing Call to a member function get() on a non-object error
 
 = 1.5.1 =
 * wp_get_archives_advanced function now reference itself to check for cached results
@@ -132,7 +135,4 @@ Scares the crap out of the seeing-eye-dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-* wp_get_archives_advanced function now reference itself to check for cached results
-* moved all filters inside class
-* fixed issue with alpha order not saving in widget
-* jquery order swap now bonded to element so it works after saving widget
+* addressed issue with some themes throwing Call to a member function get() on a non-object error
