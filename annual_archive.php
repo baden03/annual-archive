@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
-Version: 1.5.1
+Version: 1.5.2a
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.1';
+	var $version = '1.5.2a';
 	var $domain = 'anarch';
 
 	/**
@@ -84,7 +84,7 @@ class WP_Plugin_Annual_Archive {
 	//check for decade query var
 	function annual_archive_decade_filter( $query ) {
 		$decade = get_query_var( 'decade' );
-		if(!empty($decade) && $query->is_archive){
+		if( !empty($decade) && $query->is_archive() ){
 			$start = $decade.'-01-01';
 			$end = ($decade+9).'-12-31';
 			$query->set('year', '');
