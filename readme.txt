@@ -5,7 +5,7 @@ Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 4.9.4
-Stable tag: 1.5.2b
+Stable tag: 1.5.2
 
 Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
 
