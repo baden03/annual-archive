@@ -1,20 +1,17 @@
 === Annual Archive ===
-
 Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
-Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
+Tags: archive, archives, decade, decade archives, yearly, monthly, annual, annually, archive by month, archive by year, yearly archive, archives by decade, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
 Tested up to: 4.9.4
-Stable tag: 1.5.2
+Stable tag: 1.5.3b
 
-Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a sidebar widget or shortcode.
+Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
 
 == Description ==
-
-Annual Archive widget extends default WordPress Archive widget to allow daily, weekly, monthly, yearly, postbypost and alpha archives to be displayed.  Archives can be displayed in the sidebar using a widget, and even in a post or page by using a shortcode. A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='https://wordpress.org/tags/anual-archive'>free community support</a>. The Annual Archive widget - A better archive widget. The plugin can be translated into any language using the WordPress community translation tool at: https://translate.wordpress.org/projects/wp-plugins/anual-archive
+Annual Archive plugin improves on the default WordPress archive shortcode and sidebar widget. Archives can be listed daily, weekly, monthly or annually. Lists can be grouped by decade and filtered by post type. Archive lists can be placed nearly anywhere using the included shortcode or the easy to use sidebar widget. A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='https://wordpress.org/tags/anual-archive'>free community support</a>. Translate Annual Archive into any language using the WordPress community translation tool at: https://translate.wordpress.org/projects/wp-plugins/anual-archive
 
 == Installation ==
-
 1. Old-school: upload the annual-archive folder to the `/wp-content/plugins/` directory via FTP.  Hipster: Ironically add annual-archive via the WordPress Plugins menu.
 1. Activate the Plugin
 1. Test that the this plugin meets your demanding needs.
@@ -22,15 +19,14 @@ Annual Archive widget extends default WordPress Archive widget to allow daily, w
 1. Leave a comment regarding bugs, feature request, cocktail recipes at https://wordpress.org/tags/anual-archive
 
 == Frequently Asked Questions ==
-
 = What are the shortcode options? =
 A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete list of shortcode options</a> has been provided.
 
 = Where might one leave feedback, bug-reports and request features? =
-The <a href='https://wordpress.org/tags/anual-archive'>Annual Archive Forum</a> at WordPress.org is one popular choice.
+The <a href='https://wordpress.org/support/plugin/anual-archive'>Annual Archive Forum</a> at WordPress.org is one popular choice.
 
 = How can I translate this plugin in to my mother tongue? =
-By using our open community translation tool: https://translate.twinpictures.de/projects/anual-archive
+By using our open community translation tool: https://translate.wordpress.org/projects/wp-plugins/anual-archive
 
 = I am a Social Netwookiee, do you have a Facebook page? =
 Yes, yes... <a href='https://www.facebook.com/twinpictures'>Twinpictures is on Facebook</a>.
@@ -39,13 +35,12 @@ Yes, yes... <a href='https://www.facebook.com/twinpictures'>Twinpictures is on F
 Ah yes! <a href='https://twitter.com/#!/twinpictures/'>@twinpictures</a> does the tweeting around here.
 
 = You know annual is not spelled 'anual' in English, right? =
-We do now, so yes.  And thank you for noticing.
+We do, yes. It was a typo when the plugin was registered. But thank you for noticing.
 
 = Why don't blind people skydive? =
-Scares the crap out of the seeing-eye-dogs.
+Scares the crap out of the guide dogs.
 
 == Screenshots ==
-
 1. The widget options.  Pretty much self-explainatory.
 1. Sidebar Widget - Daily Archives
 1. Sidebar Widget - Weekly Archives
@@ -55,6 +50,9 @@ Scares the crap out of the seeing-eye-dogs.
 1. Sidebar Widget - Alpha Archives
 
 == Changelog ==
+= 1.5.3 =
+* changed the default archive type from monthly to yearly
+* cleaned up plugin options page
 
 = 1.5.2 =
 * addressed issue with some themes throwing Call to a member function get() on a non-object error
@@ -135,4 +133,4 @@ Scares the crap out of the seeing-eye-dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-* addressed issue with some themes throwing Call to a member function get() on a non-object error
+* changed the default archive type from monthly to yearly
