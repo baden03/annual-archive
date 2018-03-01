@@ -511,7 +511,7 @@ class WP_Plugin_Annual_Archive {
 									<tr>
 										<th><?php _e( 'Level Up!', 'anual-archive' ) ?>:</th>
 										<td>
-											<p><?php printf(__( '%sArchive-Pro-Matic%s offers advanced features such as archives by single or multiple catagories. Included is a %svery high level of personal support%s.', 'anual-archive' ), '<a href="https://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>', '<a href="https://plugins.twinpictures.de/testimonial/archive-pro-matic-testimonias&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-support">', '</a>'); ?></p>
+											<p><?php printf(__( '%sArchive-Pro-Matic%s offers advanced features such as archive lists filtered by single or multiple catagories. Included is a %svery high level of personal support%s.', 'anual-archive' ), '<a href="https://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>', '<a href="https://plugins.twinpictures.de/testimonial/archive-pro-matic-testimonias&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-support">', '</a>'); ?></p>
 										</td>
 									</tr>
 
