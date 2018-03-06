@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
-Version: 1.5.3b
+Version: 1.5.3c
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -600,7 +600,7 @@ class Annual_Archive_Widget extends WP_Widget {
 	$before = empty($instance['before']) ? '' : apply_filters('widget_before', $instance['before']);
 	$after = empty($instance['after']) ? '' : apply_filters('widget_after', $instance['after']);
 	$limit = apply_filters('widget_limit', $instance['limit']);
-	$title = apply_filters('widget_title', empty($instance['title']) ? __('Annual Archive', 'anual-archive') : $instance['title'], $instance, $this->id_base);
+	$title = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title'], $instance, $this->id_base);
 	$count = empty($instance['count']) ? 0 : $instance['count'];
 	$order = empty($instance['order']) ? 'DESC' : apply_filters('widget_order', $instance['order']);
 	$alpha_order = empty($instance['alpha_order']) ? 'ASC' : apply_filters('widget_alpha_order', $instance['alpha_order']);
