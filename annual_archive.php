@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
-Version: 1.5.3c
+Version: 1.5.3d
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,8 +23,8 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.3b';
-	var $domain = 'anarch';
+	var $version = '1.5.3d';
+	var $domain = 'anarch'; //for plugin settings
 
 	/**
 	 * Options page
@@ -54,15 +54,13 @@ class WP_Plugin_Annual_Archive {
 		// set option values
 		$this->_set_options();
 
-		// load text domain for translations
-		load_plugin_textdomain('anual-archive');
-
 		// add actions
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'plugin_actions' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'archive_admin_js_scripts' ) );
 		add_action( 'wp_head', array( $this, 'plugin_head_inject' ) );
+		add_action( 'plugins_loaded', array( $this, 'annual_archive_load_textdomain' ) );
 
 		// add shortcode
 		add_shortcode('archives', array($this, 'shortcode'));
@@ -73,6 +71,11 @@ class WP_Plugin_Annual_Archive {
 		add_filter( 'query_vars', array($this, 'annual_archive_query_vars') );
 		add_filter( 'pre_get_posts', array($this, 'annual_archive_decade_filter') );
 		add_filter( 'get_the_archive_title', array($this, 'annual_archive_decade_title') );
+	}
+
+	// load text domain for translations
+	function annual_archive_load_textdomain() {
+	    load_plugin_textdomain( 'anual-archive' );
 	}
 
 	// Add decade to the query args
@@ -533,12 +536,12 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'About', 'anual-archive' ) ?></h3>
 					<div class="inside">
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'anual-archive'); ?> <?php echo $this->version; ?></h4>
-						<p><?php printf( __('A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. Translate Annual Archive into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.twinpictures.de/projects/anual-archive">', '</a>') ?></p>
+						<p><?php printf( __('A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. Translate Annual Archive into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">', '</a>') ?></p>
 						<ul>
 							<li>
 								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
 							</li>
-							<li><?php printf( __('If this plugin %s, please consider %ssharing your story%s with others.', 'anual-archive'), $like_it, '<a href="https://www.facebook.com/twinpictures" target="_blank">', '</a>' ) ?></li>
+							<li><?php printf( __('If this plugin %s, please consider %ssharing your story%s with others.', 'anual-archive'), $like_it, '<a href="https://wordpress.org/support/plugin/anual-archive/reviews/" target="_blank">', '</a>' ) ?></li>
 							<li><?php printf( __('Your %sreviews%s, %sbug-reports, feedback%s and %scocktail recipes%s are always welcomed.', 'anual-archive'), '<a href="https://wordpress.org/support/plugin/anual-archive/reviews/">', '</a>', '<a href="https://wordpress.org/support/plugin/anual-archive/">', '</a>', '<a href="https://www.facebook.com/twinpictures">', '</a>'); ?></li>
 						</ul>
 					</div>
