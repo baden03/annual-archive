@@ -3,8 +3,8 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, decade, decade archives, yearly, monthly, annual, annually, archive by month, archive by year, yearly archive, archives by decade, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
-Tested up to: 4.9.4
-Stable tag: 1.5.3c
+Tested up to: 5.0-alpha-43788
+Stable tag: 1.5.3d
 
 Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
 
@@ -54,6 +54,7 @@ Scares the crap out of the guide dogs.
 * changed the default archive type from monthly to yearly
 * cleaned up plugin options page
 * widget title can be left blank
+* changed when the plugin text domain is loaded for better integration with translation plugins
 
 = 1.5.2 =
 * addressed issue with some themes throwing Call to a member function get() on a non-object error
