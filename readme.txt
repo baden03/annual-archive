@@ -3,8 +3,8 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, decade, decade archives, yearly, monthly, annual, annually, archive by month, archive by year, yearly archive, archives by decade, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
-Tested up to: 5.1
-Stable tag: 1.5.3
+Tested up to: 5.4
+Stable tag: 1.5.4
 Requires PHP: 7.0
 
 Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
@@ -51,6 +51,11 @@ Scares the crap out of the guide dogs.
 1. Sidebar Widget - Alpha Archives
 
 == Changelog ==
+= 1.5.4 =
+* showcount renamed to show_post_count
+* added missing select_text field from widget
+* added notice about new features in pro version
+
 = 1.5.3 =
 * changed the default archive type from monthly to yearly
 * cleaned up plugin options page
@@ -92,7 +97,7 @@ Scares the crap out of the guide dogs.
 * corrected spelling errors
 * fully tested with WordPress 4.4
 * notice: price increase for 2016 for archive-pro-magic
- 
+
 = 1.4.5 =
 * updated widget constructor to php5
 * updated language text domain to work with new WordPress language system
@@ -108,7 +113,7 @@ Scares the crap out of the guide dogs.
 
 = 1.4.1 =
 * added option to change sort order
-* added select text to change default initial text of drop-down option 
+* added select text to change default initial text of drop-down option
 
 = 1.4 =
 * Completely rebuilt the plugin using classes
@@ -136,7 +141,6 @@ Scares the crap out of the guide dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-* changed the default archive type from monthly to yearly
-* cleaned up plugin options page
-* widget title can now be left blank
-* changed when the plugin text domain is loaded for better integration with translation plugins
+* showcount renamed to show_post_count
+* added missing select_text field from widget
+* added notice about new features in pro version
