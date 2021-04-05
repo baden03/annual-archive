@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
-Version: 1.5.4
+Version: 1.5.5b
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.4';
+	var $version = '1.5.5b';
 	var $domain = 'anarch'; //for plugin settings
 
 	/**
@@ -262,6 +262,7 @@ class WP_Plugin_Annual_Archive {
 				$results = $wpdb->get_results( $query );
 				wp_cache_set( $key, $results, 'posts' );
 			}
+
 			if ( $results ) {
 				$after = $r['after'];
 				foreach ( (array) $results as $result ) {
@@ -273,6 +274,7 @@ class WP_Plugin_Annual_Archive {
 					if ( $r['show_post_count'] ) {
 						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 					}
+					//hey dude what if we want to select current year?
 					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 				}
 			}
@@ -606,7 +608,7 @@ class Annual_Archive_Widget extends WP_Widget {
 
   /** Widget */
   function widget($args, $instance) {
-		extract( $args );
+		//extract( $args );
 
 		$format = empty($instance['format']) ? 'html' : apply_filters('widget_format', $instance['format']);
 		$type = empty($instance['type']) ? 'yearly' : apply_filters('widget_type', $instance['type']);
