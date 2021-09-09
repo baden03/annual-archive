@@ -168,8 +168,8 @@ class WP_Plugin_Annual_Archive {
 			'showcount' 			=> false,
 			'echo'            => 1,
 			'order'           => 'DESC',
-	    'alpha_order'      => 'ASC',
-	    'post_order'       => 'DESC',
+	    	'alpha_order'      => 'ASC',
+	    	'post_order'       => 'DESC',
 			'post_type'       => 'post',
 		);
 
@@ -244,7 +244,24 @@ class WP_Plugin_Annual_Archive {
 					$url = get_month_link( $result->year, $result->month );
 					if ( 'post' !== $r['post_type'] ) {
 						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+						/* nope
+						$url = get_post_type_archive_link( $r['post_type'] );
+						$url = add_query_arg(
+							array(
+								'year' => $result->year,
+								'month' => $result->month,
+							), $url
+						);		
+						*/				
 					}
+					/* TODO: pretty version but needs to have custom url rewrites added
+					if ( 'post' !== $r['post_type'] ) {
+						$url = get_post_type_archive_link( $r['post_type'] ).$result->year.'/'.$result->month.'/';
+					}
+					else{
+						$url = get_month_link( $result->year, $result->month );
+					}
+					*/
 					/* translators: 1: month name, 2: 4-digit year */
 					$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
 					if ( $r['show_post_count'] ) {
@@ -268,8 +285,20 @@ class WP_Plugin_Annual_Archive {
 				foreach ( (array) $results as $result ) {
 					$url = get_year_link( $result->year );
 					if ( 'post' !== $r['post_type'] ) {
+						//Nope
+						//$url = get_post_type_archive_link( $r['post_type'] );
+						//$url = add_query_arg( 'year', $result->year, $url );
 						$url = add_query_arg( 'post_type', $r['post_type'], $url );
 					}
+
+					/* TODO: pretty version but needs custom url rewrites added
+					if ( 'post' !== $r['post_type'] ) {
+						$url = get_post_type_archive_link( $r['post_type'] ).$result->year.'/';
+					}
+					else{
+						$url = get_year_link( $result->year );
+					}
+					*/
 					$text = sprintf( '%d', $result->year );
 					if ( $r['show_post_count'] ) {
 						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
@@ -608,7 +637,7 @@ class Annual_Archive_Widget extends WP_Widget {
 
   /** Widget */
   function widget($args, $instance) {
-		//extract( $args );
+		extract( $args );
 
 		$format = empty($instance['format']) ? 'html' : apply_filters('widget_format', $instance['format']);
 		$type = empty($instance['type']) ? 'yearly' : apply_filters('widget_type', $instance['type']);
