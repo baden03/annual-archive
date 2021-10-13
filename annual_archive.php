@@ -2,9 +2,9 @@
 /*
 Plugin Name: Annual Archive
 Text Domain: anual-archive
-Plugin URI: https://plugins.twinpictures.de/plugins/annual-archive/
+Plugin URI: https://pluginoven.com/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
-Version: 1.5.5b
+Version: 1.5.5
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.5b';
+	var $version = '1.5.5';
 	var $domain = 'anarch'; //for plugin settings
 
 	/**
@@ -547,7 +547,7 @@ class WP_Plugin_Annual_Archive {
 								<table class="form-table">
 									<tr>
 										<th><?php _e( 'Custom Style', 'anual-archive' ) ?>:</th>
-										<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 150px;"><?php echo $options['custom_css']; ?></textarea>
+										<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 150px;"><?php echo esc_attr($options['custom_css']); ?></textarea>
 											<br /><span class="description"><?php _e( 'Custom CSS style for <em>ultimate flexibility</em>', 'anual-archive' ) ?></span></label>
 										</td>
 									</tr>
@@ -555,7 +555,7 @@ class WP_Plugin_Annual_Archive {
 									<tr>
 										<th><?php _e( 'Level Up!', 'anual-archive' ) ?>:</th>
 										<td>
-											<p><?php printf(__( '%sArchive-Pro-Matic%s offers advanced features such as archives by quarter, season, single and multiple catagories. Included is a %svery high level of personal support%s.', 'anual-archive' ), '<a href="https://plugins.twinpictures.de/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>', '<a href="https://plugins.twinpictures.de/testimonial/archive-pro-matic-testimonias&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-support">', '</a>'); ?></p>
+											<p><?php printf(__( '%sArchive-Pro-Matic%s offers advanced features such as archives by quarter, season, single and multiple catagories. Included is a %svery high level of personal support%s.', 'anual-archive' ), '<a href="https://pluginoven.com/premium-plugins/archive-pro-matic/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-level-up">', '</a>', '<a href="https://pluginoven.com/premium-plugins/archive-pro-matic/testimonials/?utm_source=annual-archive&utm_medium=plugin-settings-page&utm_content=archive-pro-matic&utm_campaign=archive-pro-support">', '</a>'); ?></p>
 										</td>
 									</tr>
 
@@ -577,10 +577,10 @@ class WP_Plugin_Annual_Archive {
 					<h3 class="handle"><?php _e( 'About', 'anual-archive' ) ?></h3>
 					<div class="inside">
 						<h4><?php echo $this->plugin_name; ?> <?php _e('Version', 'anual-archive'); ?> <?php echo $this->version; ?></h4>
-						<p><?php printf( __('A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. Translate Annual Archive into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">', '</a>') ?></p>
+						<p><?php printf( __('A %scomplete listing of shortcode options and attribute demos%s are available, as well as %sfree, open-source community support%s. Translate Annual Archive into any language using the WordPress %scommunity translation tool%s.', 'anual-archive') ,'<a href="https://pluginoven.com/plugins/annual-archive/documentation/">','</a>', '<a href="https://wordpress.org/support/plugin/anual-archive">', '</a>', '<a href="https://translate.wordpress.org/projects/wp-plugins/anual-archive">', '</a>') ?></p>
 						<ul>
 							<li>
-								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="https://plugins.twinpictures.de/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
+								<?php printf( __( '%sDetailed documentation%s, complete with working demonstrations of all shortcode attributes, is available for your instructional enjoyment.', 'anual-archive'), '<a href="https://pluginoven.com/plugins/annual-archive/documentation/" target="_blank">', '</a>'); ?>
 							</li>
 							<li><?php printf( __('If this plugin %s, please consider %ssharing your story%s with others.', 'anual-archive'), $like_it, '<a href="https://wordpress.org/support/plugin/anual-archive/reviews/" target="_blank">', '</a>' ) ?></li>
 							<li><?php printf( __('Your %sreviews%s, %sbug-reports, feedback%s and %scocktail recipes%s are always welcomed.', 'anual-archive'), '<a href="https://wordpress.org/support/plugin/anual-archive/reviews/">', '</a>', '<a href="https://wordpress.org/support/plugin/anual-archive/">', '</a>', '<a href="https://www.facebook.com/twinpictures">', '</a>'); ?></li>

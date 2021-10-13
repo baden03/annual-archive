@@ -3,14 +3,14 @@ Contributors: twinpictures, baden03
 Donate link: https://plugins.twinpictures.de/plugins/annual-archive/
 Tags: archive, archives, decade, decade archives, yearly, monthly, annual, annually, archive by month, archive by year, yearly archive, archives by decade, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.7
-Tested up to: 5.7.0
-Stable tag: 1.5.5b
+Tested up to: 5.9-alpha-51904
+Stable tag: 1.5.5
 Requires PHP: 7.2
 
 Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
 
 == Description ==
-Annual Archive plugin improves on the default WordPress archive shortcode and sidebar widget. Archives can be listed daily, weekly, monthly or annually. Lists can be grouped by decade and filtered by post type. Archive lists can be placed nearly anywhere using the included shortcode or the easy to use sidebar widget. A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='https://wordpress.org/tags/anual-archive'>free community support</a>. Translate Annual Archive into any language using the WordPress community translation tool at: https://translate.wordpress.org/projects/wp-plugins/anual-archive
+Annual Archive plugin improves on the default WordPress archive shortcode and sidebar widget. Archives can be listed daily, weekly, monthly or annually. Lists can be grouped by decade and filtered by post type. Archive lists can be placed nearly anywhere using the included shortcode or the easy to use sidebar widget. A <a href='https://pluginoven.com/plugins/annual-archive/documentation/'>complete listing of shortcode options and attribute demos</a> are available, as well as <a href='https://wordpress.org/tags/anual-archive'>free community support</a>. Translate Annual Archive into any language using the WordPress community translation tool at: https://translate.wordpress.org/projects/wp-plugins/anual-archive
 
 == Installation ==
 1. Old-school: upload the annual-archive folder to the `/wp-content/plugins/` directory via FTP.  Hipster: Ironically add annual-archive via the WordPress Plugins menu.
@@ -21,7 +21,7 @@ Annual Archive plugin improves on the default WordPress archive shortcode and si
 
 == Frequently Asked Questions ==
 = What are the shortcode options? =
-A <a href='https://plugins.twinpictures.de/plugins/annual-archive/documentation/'>complete list of shortcode options</a> has been provided.
+A <a href='https://pluginoven.com/plugins/annual-archive/documentation/'>complete list of shortcode options</a> has been provided.
 
 = Where might one leave feedback, bug-reports and request features? =
 The <a href='https://wordpress.org/support/plugin/anual-archive'>Annual Archive Forum</a> at WordPress.org is one popular choice.
@@ -53,8 +53,10 @@ Scares the crap out of the guide dogs.
 == Changelog ==
 
 = 1.5.5 =
-+ https://wordpress.org/support/topic/updated-a-bit/
-* fully tested with WordPress 5.7.0
+* addressed issue from https://wordpress.org/support/topic/updated-a-bit/
+* fully tested with WordPress 5.8.1 and 5.9 alphas
+* updated links to new documentation
+* escaped plugin option page fields
 
 = 1.5.4 =
 * showcount renamed to show_post_count
@@ -146,6 +148,7 @@ Scares the crap out of the guide dogs.
 * The plugin came to be.
 
 == Upgrade Notice ==
-* showcount renamed to show_post_count
-* added missing select_text field from widget
-* added notice about new features in pro version
+* addressed issue from https://wordpress.org/support/topic/updated-a-bit/
+* fully tested with WordPress 5.8.1 and 5.9 alphas
+* updated links to new documentation
+* escaped plugin option page fields
