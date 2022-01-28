@@ -4,7 +4,7 @@ Plugin Name: Annual Archive
 Text Domain: anual-archive
 Plugin URI: https://pluginoven.com/plugins/annual-archive/
 Description: Display daily, weekly, monthly, yearly, decade, postbypost and alpha archives with a simple shortcode or sidebar widget.
-Version: 1.5.5
+Version: 1.6.0
 Author: Twinpictures
 Author URI: https://www.twinpictures.de/
 License: GPL2
@@ -23,7 +23,7 @@ class WP_Plugin_Annual_Archive {
 	 * @var string
 	 */
 	var $plugin_name = 'Annual Archive';
-	var $version = '1.5.5';
+	var $version = '1.6.0';
 	var $domain = 'anarch'; //for plugin settings
 
 	/**
@@ -45,6 +45,7 @@ class WP_Plugin_Annual_Archive {
 	 */
 	var $options = array(
 		'custom_css' => '',
+		'use_cpt_archive' => '',
 	);
 
 	/**
@@ -165,12 +166,13 @@ class WP_Plugin_Annual_Archive {
 			'before'          => '',
 			'after'           => '',
 			'show_post_count' => false,
-			'showcount' 			=> false,
+			'showcount' 	  => false,
 			'echo'            => 1,
 			'order'           => 'DESC',
-	    	'alpha_order'      => 'ASC',
-	    	'post_order'       => 'DESC',
+	    	'alpha_order'     => 'ASC',
+	    	'post_order'      => 'DESC',
 			'post_type'       => 'post',
+			'use_cpt_archive' => '',
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -243,25 +245,19 @@ class WP_Plugin_Annual_Archive {
 				foreach ( (array) $results as $result ) {
 					$url = get_month_link( $result->year, $result->month );
 					if ( 'post' !== $r['post_type'] ) {
-						$url = add_query_arg( 'post_type', $r['post_type'], $url );
-						/* nope
-						$url = get_post_type_archive_link( $r['post_type'] );
-						$url = add_query_arg(
-							array(
-								'year' => $result->year,
-								'month' => $result->month,
-							), $url
-						);		
-						*/				
+						if( !empty( $r['use_cpt_archive'] ) ){
+							$url = get_post_type_archive_link( $r['post_type'] );
+							$url = add_query_arg(
+								array(
+									'year' => $result->year,
+									'month' => $result->month,
+								), $url
+							);		
+						}
+						else{
+							$url = add_query_arg( 'post_type', $r['post_type'], $url );
+						}		
 					}
-					/* TODO: pretty version but needs to have custom url rewrites added
-					if ( 'post' !== $r['post_type'] ) {
-						$url = get_post_type_archive_link( $r['post_type'] ).$result->year.'/'.$result->month.'/';
-					}
-					else{
-						$url = get_month_link( $result->year, $result->month );
-					}
-					*/
 					/* translators: 1: month name, 2: 4-digit year */
 					$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
 					if ( $r['show_post_count'] ) {
@@ -285,20 +281,14 @@ class WP_Plugin_Annual_Archive {
 				foreach ( (array) $results as $result ) {
 					$url = get_year_link( $result->year );
 					if ( 'post' !== $r['post_type'] ) {
-						//Nope
-						//$url = get_post_type_archive_link( $r['post_type'] );
-						//$url = add_query_arg( 'year', $result->year, $url );
-						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+						if( !empty( $r['use_cpt_archive'] ) ){
+							$url = get_post_type_archive_link( $r['post_type'] );
+							$url = add_query_arg( 'year', $result->year, $url );
+						}
+						else{
+							$url = add_query_arg( 'post_type', $r['post_type'], $url );
+						}
 					}
-
-					/* TODO: pretty version but needs custom url rewrites added
-					if ( 'post' !== $r['post_type'] ) {
-						$url = get_post_type_archive_link( $r['post_type'] ).$result->year.'/';
-					}
-					else{
-						$url = get_year_link( $result->year );
-					}
-					*/
 					$text = sprintf( '%d', $result->year );
 					if ( $r['show_post_count'] ) {
 						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
@@ -431,6 +421,7 @@ class WP_Plugin_Annual_Archive {
 	 * Callback shortcode
 	 */
 	function shortcode($atts, $content = null){
+		$options = $this->options;
 		extract(shortcode_atts(array(
 			'type' => 'yearly',
 			'limit' => '',
@@ -445,6 +436,7 @@ class WP_Plugin_Annual_Archive {
 			'post_order' => 'DESC',
 			'select_text' => '',
 			'post_type' => 'post',
+			'use_cpt_archive' => $options['use_cpt_archive']
 		), $atts));
 
 		if(empty($show_post_count) && !empty($showcount)){
@@ -485,6 +477,7 @@ class WP_Plugin_Annual_Archive {
 				'order' => $order,
 				'alpha_order' => $alpha_order,
 				'post_order' => $post_order,
+				'use_cpt_archive' => $use_cpt_archive,
 				'echo' => 0
 			);
 
@@ -549,6 +542,13 @@ class WP_Plugin_Annual_Archive {
 										<th><?php _e( 'Custom Style', 'anual-archive' ) ?>:</th>
 										<td><label><textarea id="<?php echo $this->options_name ?>[custom_css]" name="<?php echo $this->options_name ?>[custom_css]" style="width: 100%; height: 150px;"><?php echo esc_attr($options['custom_css']); ?></textarea>
 											<br /><span class="description"><?php _e( 'Custom CSS style for <em>ultimate flexibility</em>', 'anual-archive' ) ?></span></label>
+										</td>
+									</tr>
+
+									<tr>
+										<th><?php _e( 'CPT Archive Permalinks', 'anual-archive' ) ?>:</th>
+										<td><label><input type="checkbox" id="use_cpt_archive" name="<?php echo esc_attr($this->options_name); ?>[use_cpt_archive]" value="1"  <?php echo checked( $options['use_cpt_archive'], 1 ); ?> /> <?php _e('Use CPT Archive Permalinks', 'anual-archive'); ?>
+											<br /><span class="description"><?php printf(__('Use %sget_post_type_archive_link%s to generate the permalink for custom post type archives.', 'anual-archive'), '<a href="https://developer.wordpress.org/reference/functions/get_post_type_archive_link/" target="_blank">', '</a>'); ?></span></label>
 										</td>
 									</tr>
 
