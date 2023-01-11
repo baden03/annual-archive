@@ -463,26 +463,26 @@ class WP_Plugin_Annual_Archive {
 				}
 			}
 			$arc = '<select name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;"> <option value="">'.esc_attr($dtitle).'</option>';
-			$arc .= WP_Plugin_Annual_Archive::wp_get_archives_advanced(array('type' => $type, 'limit' => $limit, 'format' => 'option', 'show_post_count' => $show_post_count, 'post_type' => $post_type, 'order' => $order, 'alpha_order' => $alpha_order, 'post_order' => $post_order, 'echo' => 0)).'</select>';
+			$arc .= WP_Plugin_Annual_Archive::wp_get_archives_advanced(array('type' => esc_attr($type), 'limit' => esc_attr($limit), 'format' => 'option', 'show_post_count' => $show_post_count, 'post_type' => esc_attr($post_type), 'order' => esc_attr($order), 'alpha_order' => esc_attr($alpha_order), 'post_order' => esc_attr($post_order), 'echo' => 0)).'</select>';
 		} else {
-			$arc = '<'.$tag.'>';
+			$arc = '<'.esc_attr($tag).'>';
 			$arch_arr = array(
-				'type' => $type,
-				'limit' => $limit,
-				'format' => $format,
-				'before' => $before,
-				'after' => $after,
-				'show_post_count' => $show_post_count,
-				'post_type' => $post_type,
-				'order' => $order,
-				'alpha_order' => $alpha_order,
-				'post_order' => $post_order,
-				'use_cpt_archive' => $use_cpt_archive,
+				'type' => esc_attr($type),
+				'limit' => esc_attr($limit),
+				'format' => esc_attr($format),
+				'before' => esc_attr($before),
+				'after' => esc_attr($after),
+				'show_post_count' => esc_attr($show_post_count),
+				'post_type' => esc_attr($post_type),
+				'order' => esc_attr($order),
+				'alpha_order' => esc_attr($alpha_order),
+				'post_order' => esc_attr($post_order),
+				'use_cpt_archive' => esc_attr($use_cpt_archive),
 				'echo' => 0
 			);
 
 			$arc .= WP_Plugin_Annual_Archive::wp_get_archives_advanced($arch_arr);
-			$arc .= '</'.$tag.'>';
+			$arc .= '</'.esc_attr($tag).'>';
 		}
 		return $arc;
 	}

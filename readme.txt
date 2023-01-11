@@ -3,7 +3,7 @@ Contributors: twinpictures, baden03
 Donate link: https://pluginoven.com/panares-fund/
 Tags: archive, archives, decade, decade archives, yearly, monthly, annual, annually, archive by month, archive by year, yearly archive, archives by decade, twinpictures, plugin-oven, pluginoven
 Requires at least: 4.9
-Tested up to: 5.9
+Tested up to: 6.1.1
 Stable tag: 1.6.0
 Requires PHP: 7.2
 
@@ -54,7 +54,8 @@ Scares the crap out of the guide dogs.
 
 = 1.6.0 =
 * option to use get_post_type_archive_link for custom post types
-* fully tested with WordPress 5.9
+* fully tested with WordPress 6.1
+* escaped shortcode attributes
 
 = 1.5.5 =
 * addressed issue from https://wordpress.org/support/topic/updated-a-bit/
@@ -153,4 +154,5 @@ Scares the crap out of the guide dogs.
 
 == Upgrade Notice ==
 * option to use get_post_type_archive_link for custom post types
-* fully tested with WordPress 5.9
+* fully tested with WordPress 6.1
+* escaped shortcode attributes

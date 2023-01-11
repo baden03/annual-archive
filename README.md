@@ -4,8 +4,8 @@ Annual Archive
 * Contributors: twinpictures, baden03
 * Donate link: https://pluginoven.com/panares-fund/
 * Tags: archive, archives, yearly, monthly, anual, annual, annually, archive by month, archive by year, yearly archive, twinpictures, plugin-oven, pluginoven
-* Requires at least: 4.0
-* Tested up to: 5.9
+* Requires at least: 4.9
+* Tested up to: 6.1.1
 * Stable tag: 1.6.0
 * Requires PHP: 7.2
 * License: GPLv2 or later
